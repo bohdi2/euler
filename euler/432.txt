@@ -1,0 +1,22 @@
+
+Total choosing 4 points from 9 is 126
+
+There are 8 ways to have three in a line. Each case there can be 6 triangles.
+8*6 = 48
+
+126 - 48 = 79
+
+But Euler says there are 94. Am I over counting 15?
+
+
+Another way
+
+4 Big Middle Triangles  =     4
+4 Middle midel          =     4
+4 reverse middle        =     4
+8 little sides          =     8
+4 Corners               =    12-4
+8 Trucated corners      =     8
+
+                             --
+                             26
