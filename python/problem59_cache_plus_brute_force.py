@@ -3,7 +3,9 @@
 from itertools import cycle
 import string
 
+
 def read_cipher(filename):
+    """returns a list of integers"""
     with open(filename, "r") as filestream:
         data = []
         for line in filestream:
@@ -26,16 +28,20 @@ def decode(key, cipher):
 def validate(text):
     return all(c in string.printable for c in text)
 
-def create_cache(text):
+
+def create_cache(encoded):
+    """Creates a dictionary of xor -> decoded string"""
     cache = {}
     for k in range(128):
-        cache[k] = decode(k, text)
+        decoded = decode(k, encoded)
+        if validate(decoded):
+            cache[k] = decoded
 
     return cache
 
 
 def key_generator(c1, c2, c3):
-    print("----")
+    """returns a 3-tuple (xor, decode), (xor, decode), (xor, decode)"""
     for a in c1.items():
         print(a[0])
         for b in c2.items():
@@ -56,7 +62,9 @@ def main():
     c2 = create_cache(cipher[1::3])
     c3 = create_cache(cipher[2::3])
 
-    print("c1 %s" % c1)
+    print(len(c1), len(c2), len(c3))
+
+    #print("c1 %s" % c1)
 
     for key in key_generator(c1, c2, c3):
         #print("key")

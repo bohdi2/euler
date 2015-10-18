@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-from itertools import cycle
+from collections import Counter
+from itertools import zip_longest
 import string
 
+
 def read_cipher(filename):
+    """returns a list of integers"""
     with open(filename, "r") as filestream:
         data = []
         for line in filestream:
@@ -23,50 +26,26 @@ def decode(key, cipher):
     return ints_to_string([key ^ n for n in cipher])
 
 
-def validate(text):
-    return all(c in string.printable for c in text)
+def decode3(cipher):
+    most_frequent = Counter(cipher).most_common(1)[0][0]
+    key = ord(' ') ^ most_frequent
 
-def find_potential_keys(text):
-    cache = {}
-    for k in range(128):
-        decoded = decode(k, text)
-        if validate(decoded):
-            cache[k] = decoded
-
-    return cache
-
-
-def key_generator():
-    for a in range(128):
-        print(a)
-        for b in range(128):
-            for c in range(128):
-                yield [a, b, c]
-    return
-
-
-def decode2(key, cipher):
-    keys = cycle(key)
-    return ints_to_string([next(keys) ^ n for n in cipher])
+    return ints_to_string([key ^ n for n in cipher])
 
 
 def main():
     cipher = read_cipher("p059_cipher.txt")
-    c1, c2, c3 = map(find_potential_keys, split_cipher(cipher))
 
-    #cache1 = find_potential_keys(c1)
-    for c in c1, c2, c3:
-        print(c.keys())
+    t1 = decode3(cipher[0::3])
+    t2 = decode3(cipher[1::3])
+    t3 = decode3(cipher[2::3])
 
-    #for k in range(128):
-    #    decoded = decode(k, c1)
-    #    if validate(decoded):
-    #        print("%d: %s" % (k, decoded))
+    s = [c for t in zip_longest(t1, t2, t3, fillvalue='') for c in t]
+    ss = ''.join(s)
 
-    for key in key_generator():
-        s = decode2(key, cipher)
-        if "the " in s:
-            print("%s: %s " % (key, s))
+    print("ss", ss)
+    print("ss", len(cipher), len(ss))
+    print("sum", sum([ord(c) for c in ss]))
 
 
 if __name__ == "__main__":

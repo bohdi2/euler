@@ -1,0 +1,13 @@
+
+let f(p, n) = p + 2nn
+
+f(p, n+1) - f(p, n) = p + 2(n+1)(n+1) - p - 2nn
+f(p, n+1) - f(p, n) = 2( nn + 2n + 1) - 2nn
+f(p, n+1) - f(p, n) = 2nn + 4n + 2 - 2nn
+f(p, n+1) - f(p, n) = 4n + 2
+
+
+Example
+
+f(7, 3) = f(7, 2) + 10
+    25  = 15 + 10
