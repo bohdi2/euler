@@ -1,0 +1,618 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass amsart
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Project Euler: Problem 1
+\end_layout
+
+\begin_layout Author
+Christopher Helck
+\end_layout
+
+\begin_layout Date
+November 9th, 2015
+\end_layout
+
+\begin_layout Problem
+If we list all the natural numbers below 10 that are multiples of 3 or 5,
+ we get 3, 5, 6 and 9.
+ The sum of these multiples is 23.
+ Find the sum of all the multiples of 3 or 5 below 1000.
+\end_layout
+
+\begin_layout Standard
+I want a function 
+\begin_inset Formula $S(n)$
+\end_inset
+
+ which returns the sum of all integers 
+\begin_inset Formula $k<n$
+\end_inset
+
+ such that 
+\begin_inset Formula $3\mid k$
+\end_inset
+
+ or 
+\begin_inset Formula $5\mid k$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Part
+Brute Force
+\end_layout
+
+\begin_layout Standard
+The problem asks to find 
+\begin_inset Formula $S(1000)$
+\end_inset
+
+.
+ The obvious, brute force way looks like this:
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "sum1.py"
+lstparams "breaklines=true,captionpos=b,frame=tb,language=Python,caption={sum1}"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Indeed this solution works, and it is very quick: about 0.0002 seconds on
+ my computer.
+ If fact it is too easy.
+ Problem 1 was published in October 2001 when CPUs were slower and most
+ machines had only one CPU.
+ To make this presentation more interesting I'll try to find 
+\begin_inset Formula $S(10^{12})$
+\end_inset
+
+ or 
+\begin_inset Formula $S(\mbox{one trillion})$
+\end_inset
+
+.
+ A trillion is a very big number, anything done a trillion times is going
+ to take a long time.
+ This will not be easy.
+ First thing to do is experiment with some smaller values and record their
+ run times.
+ The @timing decorator helps with this:
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "utils.py"
+lstparams "breaklines=true,captionpos=b,frame=tb,language=Python"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here are some results from my home system: a modern Ubuntu system with 8
+ cores running at 3.6GHz and 16G ram.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+n
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+time (sec)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,000,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1021
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10,000,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.0172
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100,000,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10.2249
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1,000,000,000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+101.8691
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The results are interesting: The time it takes to perform a calculation
+ is porportional to the input.
+ The calculation of 
+\begin_inset Formula $S(10^{12})$
+\end_inset
+
+ should take 1000 times longer than the calculation of 
+\begin_inset Formula $S(10^{9})$
+\end_inset
+
+; this is 1000 * 101 seconds or about 28 hours; too long.
+ I tried to optimize the Python code using list comprehensions and generators,
+ but the results were disappointing: only a fraction of a percent difference.
+ Another idea is to try to use all eight of my cores; this would reduce
+ the elapsed time from 28 to 3.5 hours, but it comes at the cost of increased
+ complexity.
+ Python is not a good language choice for multi-threading.
+ Switching to another language does help.
+ A similar program in C runs in 30 minutes.
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "problem1.c"
+lstparams "breaklines=true,captionpos=b,frame=tb,language=C"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The brute force method does work, but it takes a long time to run, and I
+ don't find it very satisfying.
+ The problem is I have a 
+\begin_inset Formula $\ensuremath{O(n)}$
+\end_inset
+
+ algorythm, with a large 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ I want a 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\ensuremath{O(1)}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+algorythm
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+.
+\end_layout
+
+\begin_layout Part
+PIE (Principal of Inclusion and Exclusion)
+\end_layout
+
+\begin_layout Standard
+Sometimes it is best to start over from scratch and ask slightly different
+ questions.
+ 
+\end_layout
+
+\begin_layout Standard
+How many multiples of 3 or 5 are there below a given 
+\begin_inset Formula $n$
+\end_inset
+
+? For 
+\begin_inset Formula $n=100$
+\end_inset
+
+ there are 
+\begin_inset Formula $\left\lfloor \frac{100-1}{3}\right\rfloor =33$
+\end_inset
+
+ multiples of 3, and 
+\begin_inset Formula $\left\lfloor \frac{100-1}{5}\right\rfloor =19$
+\end_inset
+
+ multiples of 5.
+ If I add the two results I get 52.
+ Is this the number of mutiples of 3 
+\emph on
+or
+\emph default
+ 5 below 100? No, because I counted each of 15, 30, 45, 60, 75, and 90 twice
+ since each of them is a mutliple of 3 
+\emph on
+and
+\emph default
+ 5 and appeared in both counts.
+ I need to count the multiples of 3 and 5 and then subtract the multiples
+ of 15.
+\end_layout
+
+\begin_layout Standard
+Now I return to the original question: what is the sum of the mutiples of
+ 3 or 5 that are below some number 
+\begin_inset Formula $n$
+\end_inset
+
+? It is the sum of all of the multiples of 3 below 
+\begin_inset Formula $n$
+\end_inset
+
+, plus the sum of all mutiples of 5 below 
+\begin_inset Formula $n$
+\end_inset
+
+, minus the sum of all multiples of 15 below 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ I'll define a new function 
+\begin_inset Formula $S_{d}(n)$
+\end_inset
+
+ that is the sum of all multiples of 
+\begin_inset Formula $d$
+\end_inset
+
+ below 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $S(n)=S_{3}(n)+S_{5}(n)-S_{15}(n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+How to calculate 
+\begin_inset Formula $S_{d}(n)$
+\end_inset
+
+?
+\begin_inset Formula 
+\begin{eqnarray*}
+S_{d}(n) & = & 1d+2d+3d+\ldots+\left\lfloor \frac{n}{d}\right\rfloor d\\
+ & = & d(1+2+3+\ldots+\left\lfloor \frac{n}{d}\right\rfloor )\\
+ & = & \frac{d\cdot\left\lfloor \frac{n}{d}\right\rfloor (\left\lfloor \frac{n}{d}\right\rfloor +1)}{2}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If I define 
+\begin_inset Formula $T(n)=1+2+3\ldots+n=\frac{n(n+1)}{2}$
+\end_inset
+
+ then
+\begin_inset Formula 
+\[
+S_{d}(n)=d\cdot T(\left\lfloor \frac{n}{d}\right\rfloor )
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Python this is easy to implement.
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "sum2.py"
+lstparams "breaklines=true,captionpos=b,frame=tb,language=Python"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And the (reformatted) output is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+0.0000 sec => sum2(10):                       23 
+\end_layout
+
+\begin_layout Plain Layout
+
+0.0000 sec => sum2(billion):        233333166668 
+\end_layout
+
+\begin_layout Plain Layout
+
+0.0000 sec => sum2(trillion): 233333333166666668
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To solve the problem we included the sums of multiples of 3 and 5 and excluded
+ the sums of multiples of 15.
+ This is a simple example of the inclusion-exclusion principal.
+ It is usually introduced using set notation.
+ 
+\begin_inset Formula 
+\[
+\vert A\cup B\vert=\vert A\vert+\vert B|-|A\cap B|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case 
+\begin_inset Formula $A$
+\end_inset
+
+ is the set of multiples of 3 and 
+\begin_inset Formula $B$
+\end_inset
+
+ is the set of multiples of 5.
+ The notation 
+\begin_inset Formula $|A|$
+\end_inset
+
+ means the cardinality of a set or how many things are in the set.
+ Extending PIE to three sets gives us:
+\begin_inset Formula 
+\[
+|A\cup B\cup C|=|A|+|B|+|C|-|A\cap B|-|A\cap C|-|B\cap C|+|A\cap B\cap C|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This diagram from Wikipedia may help make sense of this.
+ The numbers in the Ven diagrams indicate how many times a subset was counted.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Inclusion-exclusion-3sets.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I can use this to calculate the sum of all multiples of 3, 5, and 7 below
+ 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ The formula is
+\begin_inset Formula 
+\[
+S_{3}(n)+S_{5}(n)+S_{7}(n)-S_{15}(n)-S_{21}(n)-S_{35}(n)+S_{105}(n)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+PIE can be extends to an arbitrary number of sets and it can be applied
+ in unexpected ways.
+ There are many good articles about it on the web.
+ It comes up again and again in Project Euler and other combintoric problems.
+\end_layout
+
+\end_body
+\end_document
