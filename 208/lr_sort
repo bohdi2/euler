@@ -1,0 +1,13 @@
+#!/bin/sh
+
+for order in 5 10 15 20 25 30; do
+  echo "sorting $order"
+  cat ${order}.txt | lr.py | sort >lr_${order}.txt
+done
+
+for order in 5 10 15 20 25 30; do
+  echo "uniq $order"
+  cat lr_${order}.txt | uniq -c >uniq_${order}.txt
+done
+
+

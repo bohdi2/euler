@@ -1,0 +1,6 @@
+#!/bin/sh
+
+python3 Counter.py >g.dot
+unflatten g.dot >gt.dot
+dot -Tsvg g.dot >g.svg
+dot -Tsvg gt.dot >gt.svg
