@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import math
 import turtle
 from itertools import chain
 from itertools import islice
@@ -166,11 +165,9 @@ if __name__ == '__main__':
     v0 = t0.translate_grid(m)
     v0.draw(turtle.Turtle())
 
-
     c = getch()
     while c:
         if 'q' == c:
             break
 
         c = getch()
-

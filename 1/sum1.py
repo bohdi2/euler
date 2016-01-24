@@ -1,7 +1,6 @@
-import sys
-from utils import timing
+from common.timing import elapsed
 
-@timing
+@elapsed
 def sum1(n):
     sum = 0
     for k in range(1, n):
@@ -12,4 +11,6 @@ def sum1(n):
 if __name__ == "__main__":
     trillion = 1000 * 1000 * 1000
     print("sum_1(trillion):     %d" % sum1(trillion))
+
+
 

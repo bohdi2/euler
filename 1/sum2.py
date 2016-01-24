@@ -1,15 +1,19 @@
-import sys
-from utils import timing
 
-@timing
+from common.timing import elapsed
+
+
+@elapsed
 def sum2(n):
     return S(n, 3) + S(n, 5) - S(n, 15)
+
 
 def S(n, d):
     return d * t((n - 1) // d)
 
+
 def t(n):
     return n * (n + 1) // 2
+
 
 if __name__ == "__main__":
     billion = 1000 * 1000
